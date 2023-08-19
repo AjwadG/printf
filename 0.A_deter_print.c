@@ -20,7 +20,12 @@ int determine(const char *s, int *index)
 			write(1, s, 1);
 			*index = 0;
 			break;
+		case '\0':
+			*index = -1;
+			break;
 		default:
+			write(1, "%", 1);
+			*index = 0;
 			return (0);
 	}
 	return (1);
@@ -48,6 +53,8 @@ int print_string(va_list ap)
 {
 	char *s = va_arg(ap, char*);
 
+	if (s == NULL)
+		s = "(null)";
 	write(1, s, len(s));
 	return (len(s));
 }

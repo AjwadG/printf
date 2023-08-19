@@ -15,7 +15,7 @@ int _printf(const char *format, ...)
 	int (*f[])(va_list) = {print_char, print_string};
 
 	if (!format)
-		return (0);
+		return (-1);
 	va_start(ap, format);
 	while (format[i])
 	{
@@ -28,10 +28,12 @@ int _printf(const char *format, ...)
 		else
 		{
 			step += determine(&format[i + 1], &index);
-			if (index)
+			if (index > 0)
 				counter += f[--index](ap);
-			else if (step > 1)
+			else
 				counter++;
+			if (index == -1)
+				return (-1);
 		}
 		i += step;
 	}
