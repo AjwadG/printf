@@ -12,7 +12,8 @@ int _printf(const char *format, ...)
 {
 	int i = 0, counter = 0, index, step = 1;
 	va_list ap;
-	int (*f[])(va_list) = {print_char, print_string, print_int};
+	int (*f[])(va_list) = {print_char, print_string,
+				print_int, print_binary};
 
 	if (!format)
 		return (-1);

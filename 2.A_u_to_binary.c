@@ -1,0 +1,38 @@
+#include "main.h"
+
+/**
+ * print_binary - print 1 char
+ * @ap: opject
+ * Return: the number of printed chars
+ */
+int print_binary(va_list ap)
+{
+	unsigned int n = va_arg(ap, unsigned int);
+	int counter = 0;
+
+	convert_print(n, &counter, 2, 0);
+	return (counter);
+}
+
+
+/**
+ * convert_print - prints_binary
+ * @n: pointer to string
+ * @i: pointer to counter
+ * @conv: the base
+ * @xX: converting to x or X or 0 if otherwise
+ ***/
+void convert_print(unsigned int n, int *i, int conv, char xX)
+{
+	char c = n % conv;
+
+	if (c >= 10)
+		c += xX;
+	else
+		c += '0';
+
+	if (n / conv != 0)
+		convert_print(n / conv, i, conv, xX);
+	write(1, &c, 1);
+	(*i)++;
+}

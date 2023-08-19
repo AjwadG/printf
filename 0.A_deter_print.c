@@ -20,6 +20,9 @@ int determine(const char *s, int *index)
 		case 'i':
 			*index = 3;
 			break;
+		case 'b':
+			*index = 4;
+			break;
 		case '%':
 			write(1, s, 1);
 			*index = 0;
