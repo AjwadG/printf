@@ -10,4 +10,6 @@ int determine(const char *s, int *index);
 int print_char(va_list ap);
 int print_string(va_list ap);
 int len(char *s);
+int print_int(va_list);
+int get_place(int);
 #endif

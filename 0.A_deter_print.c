@@ -16,6 +16,10 @@ int determine(const char *s, int *index)
 		case 's':
 			*index = 2;
 			break;
+		case 'd':
+		case 'i':
+			*index = 3;
+			break;
 		case '%':
 			write(1, s, 1);
 			*index = 0;
