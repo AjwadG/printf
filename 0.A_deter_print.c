@@ -23,6 +23,18 @@ int determine(const char *s, int *index)
 		case 'b':
 			*index = 4;
 			break;
+		case 'u':
+			*index = 5;
+			break;
+		case 'o':
+			*index = 6;
+			break;
+		case 'x':
+			*index = 7;
+			break;
+		case 'X':
+			*index = 8;
+			break;
 		case '%':
 			write(1, s, 1);
 			*index = 0;

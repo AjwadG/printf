@@ -27,7 +27,7 @@ void convert_print(unsigned int n, int *i, int conv, char xX)
 	char c = n % conv;
 
 	if (c >= 10)
-		c += xX;
+		c = c % 10 + xX;
 	else
 		c += '0';
 
