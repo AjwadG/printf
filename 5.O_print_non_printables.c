@@ -20,7 +20,7 @@ int print_non_printables(va_list va)
 		{
 			write(1, "\\x", 2);
 			count += 2;
-			if (!((s[i] / 16) * (s[i] % 16)))
+			if (!((s[i] / 16) && (s[i] % 16)))
 			{
 				write(1, "0", 1);
 				count++;
