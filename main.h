@@ -13,7 +13,7 @@ int len(char *s);
 int print_int(va_list);
 int get_place(int);
 int print_binary(va_list ap);
-void convert_print(unsigned int n, int *i, int conv , char xX);
+void convert_print(unsigned int n, int *i, int conv, char xX);
 int print_u(va_list);
 int print_octal(va_list);
 int print_hex(va_list);
