@@ -16,8 +16,8 @@ int print_binary(va_list ap)
 
 
 /**
- * convert_print - prints_binary
- * @n: pointer to string
+ * convert_print - Converts from decimal
+ * @n: Int to be converted
  * @i: pointer to counter
  * @conv: the base
  * @xX: converting to x or X or 0 if otherwise

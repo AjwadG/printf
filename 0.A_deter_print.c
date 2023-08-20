@@ -8,44 +8,26 @@
  */
 int determine(const char *s, int *index)
 {
-	switch (s[0])
+	*index = (s[0] == 'c') + (s[0] == 's') * 2 +
+			(s[0] == 'd' || s[0] == 'i') * 3 + (s[0] == 'b') * 4 +
+			(s[0] == 'u') * 5 + (s[0] == 'o') * 6 + (s[0] == 'x') * 7 +
+			(s[0] == 'X') * 8 + (s[0] == 'S') * 9;
+	if (*index == 0)
 	{
-		case 'c':
-			*index = 1;
-			break;
-		case 's':
-			*index = 2;
-			break;
-		case 'd':
-		case 'i':
-			*index = 3;
-			break;
-		case 'b':
-			*index = 4;
-			break;
-		case 'u':
-			*index = 5;
-			break;
-		case 'o':
-			*index = 6;
-			break;
-		case 'x':
-			*index = 7;
-			break;
-		case 'X':
-			*index = 8;
-			break;
-		case '%':
-			write(1, s, 1);
-			*index = 0;
-			break;
-		case '\0':
-			*index = -1;
-			break;
-		default:
-			write(1, "%", 1);
-			*index = 0;
-			return (0);
+		switch (s[0])
+		{
+			case '%':
+				write(1, s, 1);
+				*index = 0;
+				break;
+			case '\0':
+				*index = -1;
+				break;
+			default:
+				write(1, "%", 1);
+				*index = 0;
+				return (0);
+		}
 	}
 	return (1);
 }

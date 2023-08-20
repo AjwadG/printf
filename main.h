@@ -18,4 +18,5 @@ int print_u(va_list);
 int print_octal(va_list);
 int print_hex(va_list);
 int print_HEX(va_list);
+int print_non_printables(va_list);
 #endif
