@@ -12,10 +12,12 @@ int _printf(const char *format, ...)
 {
 	int i = 0, counter = 0, index, step = 1;
 	va_list ap;
-	int (*f[])(va_list) = {print_char,
+	char pattern[10];
+
+	int (*f[])(va_list, char *) = {print_char,
 		print_string, print_int, print_binary,
 		print_u, print_octal, print_hex, print_HEX,
-		print_non_printables};
+		print_non_printables, print_pointer};
 
 	if (!format)
 		return (-1);
@@ -31,8 +33,9 @@ int _printf(const char *format, ...)
 		else
 		{
 			step += determine(&format[i + 1], &index);
+			_strcpy(pattern, &format[i + 1], step - 1);
 			if (index > 0)
-				counter += f[--index](ap);
+				counter += f[--index](ap, pattern);
 			else
 				counter++;
 			if (index == -1)

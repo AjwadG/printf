@@ -4,13 +4,16 @@
  * print_int - Prints numbers
  *
  * @va: variadic argument
+ * @pattaren: pattaren of the output
  * Return: Number of printed characters
  */
-int print_int(va_list va)
+int print_int(va_list va, char *pattaren)
 {
 	int n, place, count = 0, abs = 1;
 	char c;
 
+	if (pattaren == NULL)
+		return (0);
 	n = va_arg(va, int);
 	if (n < 0)
 	{
