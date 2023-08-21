@@ -21,4 +21,6 @@ int print_HEX(va_list, char *pattaren);
 int print_non_printables(va_list, char *pattaren);
 int print_pointer(va_list, char *pattaren);
 void _strcpy(char *dest, const char *src, int steps);
+int print_rot13(va_list, char *);
+int get_ascii(char c);
 #endif

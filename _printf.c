@@ -17,7 +17,7 @@ int _printf(const char *format, ...)
 	int (*f[])(va_list, char *) = {print_char,
 		print_string, print_int, print_binary,
 		print_u, print_octal, print_hex, print_HEX,
-		print_non_printables, print_pointer};
+		print_non_printables, print_pointer, print_rot13};
 
 	if (!format)
 		return (-1);
