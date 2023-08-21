@@ -8,6 +8,8 @@
  */
 int determine(const char *s, int *index)
 {
+	int tmp;
+
 	*index = (s[0] == 'c') + (s[0] == 's') * 2 +
 			(s[0] == 'd' || s[0] == 'i') * 3 + (s[0] == 'b') * 4 +
 			(s[0] == 'u') * 5 + (s[0] == 'o') * 6 + (s[0] == 'x') * 7 +
@@ -23,6 +25,11 @@ int determine(const char *s, int *index)
 			case '\0':
 				*index = -1;
 				break;
+			case '+':
+			case ' ':
+			case '#':
+				tmp = determine(&s[1], index);
+				return ((1 + tmp) * (tmp > 0));
 			default:
 				write(1, "%", 1);
 				*index = 0;

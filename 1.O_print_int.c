@@ -12,14 +12,25 @@ int print_int(va_list va, char *pattaren)
 	int n, place, count = 0, abs = 1;
 	char c;
 
-	if (pattaren == NULL)
-		return (0);
 	n = va_arg(va, int);
 	if (n < 0)
 	{
 		abs = -1;
 		write(1, "-", 1);
 		count++;
+	}
+	else
+	{
+		if (pattaren[0] == '+')
+		{
+			count++;
+			write(1, "+", 1);
+		}
+		else if (pattaren[0] == ' ')
+		{
+			count++;
+			write(1, " ", 1);
+		}
 	}
 	place = get_place(n);
 	while (place)

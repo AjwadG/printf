@@ -28,8 +28,11 @@ int print_octal(va_list ap, char *pattaren)
 	unsigned int n = va_arg(ap, unsigned int);
 	int counter = 0;
 
-	if (pattaren == NULL)
-		return (0);
+	if (pattaren[0] == '#')
+	{
+		counter++;
+		write(1, "0", 1);
+	}
 	convert_print(n, &counter, 8, 0);
 	return (counter);
 }
@@ -45,8 +48,11 @@ int print_hex(va_list ap, char *pattaren)
 	unsigned int n = va_arg(ap, unsigned int);
 	int counter = 0;
 
-	if (pattaren == NULL)
-		return (0);
+	if (pattaren[0] == '#')
+	{
+		counter += 2;
+		write(1, "0x", 2);
+	}
 	convert_print(n, &counter, 16, 'a');
 	return (counter);
 }
@@ -62,8 +68,11 @@ int print_HEX(va_list ap, char *pattaren)
 	unsigned int n = va_arg(ap, unsigned int);
 	int counter = 0;
 
-	if (pattaren == NULL)
-		return (0);
+	if (pattaren[0] == '#')
+	{
+		counter += 2;
+		write(1, "0X", 2);
+	}
 	convert_print(n, &counter, 16, 'A');
 	return (counter);
 }

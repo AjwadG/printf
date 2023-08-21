@@ -11,17 +11,25 @@ int print_pointer(va_list ap, char *pattaren)
 	unsigned long int n = (unsigned long int) va_arg(ap, void *);
 	int counter = 2;
 
-	if (pattaren == NULL)
-		return (0);
 	if (n)
 	{
+		if (pattaren[0] == '+')
+		{
+			counter++;
+			write(1, "+", 1);
+		}
+		else if (pattaren[0] == ' ')
+		{
+			counter++;
+			write(1, " ", 1);
+		}
 		write(1, "0x", 2);
 		convert_print(n, &counter, 16, 'a');
 	}
 	else
 	{
 		write(1, "(nil)", 5);
-		counter = 5;
+		counter += 3;
 	}
 	return (counter);
 }
