@@ -4,15 +4,15 @@
  * print_rev - Prints the reversed string
  *
  * @va: variadic argument
- * @pattaren: pattaren of the out put
+ * @flags: opject of the out put
  * Return: Number of printed characters
  */
-int print_rev(va_list va, char *pattaren)
+int print_rev(va_list va, flags_t *flags)
 {
 	int count, i;
 	char *s;
 
-	if (pattaren == NULL)
+	if (flags == NULL)
 		return (0);
 	s = va_arg(va, char *);
 	if (!s)

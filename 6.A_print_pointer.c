@@ -3,22 +3,22 @@
 /**
  * print_pointer - print pointer
  * @ap: opject
- * @pattaren: pattaren of the output
+ * @flags: opject of the out put
  * Return: the number of printed chars
  */
-int print_pointer(va_list ap, char *pattaren)
+int print_pointer(va_list ap, flags_t *flags)
 {
 	unsigned long int n = (unsigned long int) va_arg(ap, void *);
 	int counter = 2;
 
 	if (n)
 	{
-		if (pattaren[0] == '+')
+		if (flags->plus)
 		{
 			counter++;
 			write(1, "+", 1);
 		}
-		else if (pattaren[0] == ' ')
+		else if (flags->space)
 		{
 			counter++;
 			write(1, " ", 1);

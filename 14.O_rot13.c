@@ -4,15 +4,15 @@
  * print_rot13 - Prints the rot13'ed string
  *
  * @va: variadic argument
- * @pattaren: pattaren of the out put
+ * @flags: opject of the out put
  * Return: Number of printed characters
  */
-int print_rot13(va_list va, char *pattaren)
+int print_rot13(va_list va, flags_t *flags)
 {
 	int i = 0, count = 0, ascii, c;
 	char *s;
 
-	if (pattaren == NULL)
+	if (flags == NULL)
 		return (0);
 	s = va_arg(va, char *);
 	if (!s)

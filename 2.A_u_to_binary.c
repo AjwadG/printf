@@ -3,15 +3,15 @@
 /**
  * print_binary - print 1 char
  * @ap: opject
- * @pattaren: pattaren of the output
+ * @flags: opject of the out put
  * Return: the number of printed chars
  */
-int print_binary(va_list ap, char *pattaren)
+int print_binary(va_list ap, flags_t *flags)
 {
 	unsigned int n = va_arg(ap, unsigned int);
 	int counter = 0;
 
-	if (pattaren == NULL)
+	if (flags == NULL)
 		return (0);
 	convert_print(n, &counter, 2, 0);
 	return (counter);

@@ -4,15 +4,15 @@
  * print_non_printables - Prints non printable characters
  *
  * @va: variadic argument
- * @pattaren: pattaren of the out put
+ * @flags: opject of the out put
  * Return: Number of printed characters
  */
-int print_non_printables(va_list va, char *pattaren)
+int print_non_printables(va_list va, flags_t *flags)
 {
 	int i = 0, count = 0;
 	char *s;
 
-	if (pattaren == NULL)
+	if (flags == NULL)
 		return (0);
 	s = va_arg(va, char *);
 	if (!s)

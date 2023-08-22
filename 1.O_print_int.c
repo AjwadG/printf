@@ -4,10 +4,10 @@
  * print_int - Prints numbers
  *
  * @va: variadic argument
- * @pattaren: pattaren of the output
+ * @flags: opject of the out put
  * Return: Number of printed characters
  */
-int print_int(va_list va, char *pattaren)
+int print_int(va_list va, flags_t *flags)
 {
 	int n, place, count = 0, abs = 1;
 	char c;
@@ -21,12 +21,12 @@ int print_int(va_list va, char *pattaren)
 	}
 	else
 	{
-		if (pattaren[0] == '+')
+		if (flags->plus)
 		{
 			count++;
 			write(1, "+", 1);
 		}
-		else if (pattaren[0] == ' ')
+		else if (flags->space)
 		{
 			count++;
 			write(1, " ", 1);
