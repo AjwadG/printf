@@ -8,12 +8,22 @@
  */
 int print_char(va_list ap, flags_t *flags)
 {
-	char c = va_arg(ap, int);
+	char c, counter = 0;
 
-	if (flags == NULL)
-		return (0);
-	write(1, &c, 1);
-	return (1);
+	if (flags->width == -1)
+		flags->width = va_arg(ap, unsigned int);
+
+	c =  va_arg(ap, int);
+
+	if (!flags->neg)
+		counter += print_fill(' ', flags->width - 1);
+
+	counter += write(1, &c, 1);
+
+	if (flags->neg)
+		counter += print_fill(' ', flags->width - 1);
+
+	return (counter);
 }
 
 /**
@@ -24,14 +34,27 @@ int print_char(va_list ap, flags_t *flags)
  */
 int print_string(va_list ap, flags_t *flags)
 {
-	char *s = va_arg(ap, char*);
+	char *s;
+	int l, counter = 0;
 
-	if (flags == NULL)
-		return (0);
+	if (flags->width == -1)
+		flags->width = va_arg(ap, unsigned int);
+
+	s =  va_arg(ap, char*);
+
 	if (s == NULL)
 		s = "(null)";
-	write(1, s, len(s));
-	return (len(s));
+
+	l = len(s);
+	if (!flags->neg)
+		counter += print_fill(' ', flags->width - l);
+
+	counter += write(1, s, l);
+
+	if (flags->neg)
+		counter += print_fill(' ', flags->width - l);
+
+	return (counter);
 }
 
 
@@ -49,4 +72,40 @@ int len(char *s)
 		i++;
 	}
 	return (i);
+}
+
+/**
+ * print_fill - prints n (c)s
+ * @n: number of c to print
+ * @c: the char to print
+ * Return: the number of printed char
+ */
+int print_fill(char c, int n)
+{
+	int i;
+
+	for (i = 0; i < n; i++)
+	{
+		write(1, &c, 1);
+	}
+	return (i);
+}
+
+/**
+ * init_flags - asign 0 to all
+ * @flags: opject
+ */
+void init_flags(flags_t *flags)
+{
+	flags->neg = 0;
+	flags->plus = 0;
+	flags->zero = 0;
+	flags->space = 0;
+	flags->width = 0;
+	flags->h = 0;
+	flags->l = 0;
+	flags->index = 0;
+	flags->hash = 0;
+	flags->prec = 0;
+	flags->tmp = 0;
 }

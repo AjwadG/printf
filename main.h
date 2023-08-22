@@ -16,6 +16,7 @@
  * @width: int
  * @prec: int
  * @index: int
+ * @tmp: int
  */
 typedef struct infos
 {
@@ -29,20 +30,26 @@ typedef struct infos
 	int width;
 	int prec;
 	int index;
+	int tmp;
 } flags_t;
 
 
 int _printf(const char *format, ...);
-int determine(const char *s, flags_t *flags);
+int determine(const char *s, flags_t *flags, va_list ap);
 
 void get_index(const char *s, flags_t *flags);
 int get_f(const char *s, flags_t *flags);
 int get_length(const char *s, flags_t *flags);
+int get_width(const char *s, flags_t *flags, va_list ap);
+int print_fill(char c, int n);
 
+int get_int_lenght(long int n);
 long int get_int(va_list ap, flags_t *flags);
 unsigned long int get_unsigned_int(va_list ap, flags_t *flags);
+void init_flags(flags_t *flags);
 
 
+int print_pers(va_list ap, flags_t *flags);
 int print_char(va_list ap, flags_t *flags);
 int print_string(va_list ap, flags_t *flags);
 int len(char *s);

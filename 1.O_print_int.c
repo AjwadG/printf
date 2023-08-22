@@ -9,37 +9,42 @@
  */
 int print_int(va_list va, flags_t *flags)
 {
-	long int n, place, count = 0, abs = 1;
-	char c;
+	long int n, place, count = 0, abs = 1, l;
+	char c, fill = flags->zero ? '0' : ' ';
 
+	if (flags->width == -1)
+		flags->width = va_arg(va, unsigned int);
 	n = get_int(va, flags);
+	l = get_int_lenght(n);
+	if (n >= 0 && !flags->neg && ((!flags->plus && !flags->space)
+			|| fill == ' '))
+		count += print_fill(fill, flags->width - l);
 	if (n < 0)
 	{
 		abs = -1;
-		write(1, "-", 1);
-		count++;
+		count += write(1, "-", 1);
+		if (!flags->neg)
+			count += print_fill(fill, flags->width - l - 1);
 	}
 	else
 	{
 		if (flags->plus)
-		{
-			count++;
-			write(1, "+", 1);
-		}
+			count += write(1, "+", 1);
 		else if (flags->space)
-		{
-			count++;
-			write(1, " ", 1);
-		}
+			count += write(1, " ", 1);
+		if (!flags->neg && (flags->plus || flags->space))
+			count += print_fill(fill, flags->width - l - 1);
 	}
 	place = get_place(n);
 	while (place)
 	{
 		c = n / place % 10 * abs + '0';
-		write(1, &c, 1);
+		count += write(1, &c, 1);
 		place /= 10;
-		count++;
 	}
+	if (flags->neg)
+		count += print_fill(' ', flags->width - l -
+			(n < 0 || flags->space || flags->plus));
 	return (count);
 }
 /**
@@ -61,6 +66,24 @@ int get_place(long int n)
 	return (place);
 }
 
+/**
+ * get_int_lenght - Gets lenght of number
+ *
+ * @n: Decimal
+ * Return: Decimal place
+ */
+int get_int_lenght(long int n)
+{
+	int place = 1;
+
+	n /= 10;
+	while (n)
+	{
+		place++;
+		n /= 10;
+	}
+	return (place);
+}
 /**
  * get_int - gets the right sized number
  * @ap: opject
