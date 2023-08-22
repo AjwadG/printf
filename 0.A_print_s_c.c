@@ -46,9 +46,13 @@ int print_string(va_list ap, flags_t *flags)
 		s = "(null)";
 
 	l = len(s);
+	if (flags->prec)
+	{
+		if (l > flags->prec)
+			l = flags->prec;
+	}
 	if (!flags->neg)
 		counter += print_fill(' ', flags->width - l);
-
 	counter += write(1, s, l);
 
 	if (flags->neg)
@@ -108,4 +112,5 @@ void init_flags(flags_t *flags)
 	flags->hash = 0;
 	flags->prec = 0;
 	flags->tmp = 0;
+	flags->tmp1 = 0;
 }

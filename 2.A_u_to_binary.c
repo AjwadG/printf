@@ -39,3 +39,40 @@ void convert_print(unsigned long int n, int *i, int conv, char xX)
 	write(1, &c, 1);
 	(*i)++;
 }
+
+
+/**
+ * get_pres - determin the width
+ * @s: pointer to string
+ * @flags: opject of the out put
+ * @ap: opject
+ * Return: the number of skiped chars
+ */
+int get_pres(const char *s, flags_t *flags, va_list ap)
+{
+	int i;
+
+	if (s[0] != '.')
+		return (0);
+	for (i = 1; s[i]; i++)
+	{
+		if (s[i] == '*')
+		{
+			if (i == 1)
+			{
+				flags->tmp1 = flags->prec = va_arg(ap, int);
+				i++;
+			}
+			break;
+		}
+		else if (s[i] >= '0' && s[i] <= '9')
+		{
+			flags->prec = flags->prec * 10 + (s[i] - '0');
+		}
+		else
+		{
+			break;
+		}
+	}
+	return (i);
+}

@@ -17,6 +17,7 @@
  * @prec: int
  * @index: int
  * @tmp: int
+ * @tmp1: int
  */
 typedef struct infos
 {
@@ -31,6 +32,7 @@ typedef struct infos
 	int prec;
 	int index;
 	int tmp;
+	int tmp1;
 } flags_t;
 
 
@@ -41,6 +43,7 @@ void get_index(const char *s, flags_t *flags);
 int get_f(const char *s, flags_t *flags);
 int get_length(const char *s, flags_t *flags);
 int get_width(const char *s, flags_t *flags, va_list ap);
+int get_pres(const char *s, flags_t *flags, va_list ap);
 int print_fill(char c, int n);
 
 int get_int_lenght(long int n);

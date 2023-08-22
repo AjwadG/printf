@@ -12,19 +12,19 @@ int print_int(va_list va, flags_t *flags)
 	long int n, place, count = 0, abs = 1, l;
 	char c, fill = flags->zero ? '0' : ' ';
 
-	if (flags->width == -1)
-		flags->width = va_arg(va, unsigned int);
 	n = get_int(va, flags);
 	l = get_int_lenght(n);
 	if (n >= 0 && !flags->neg && ((!flags->plus && !flags->space)
-			|| fill == ' '))
+			|| fill == ' ') && !flags->prec)
 		count += print_fill(fill, flags->width - l);
 	if (n < 0)
 	{
 		abs = -1;
 		count += write(1, "-", 1);
-		if (!flags->neg)
+		if (!flags->neg && !flags->prec)
 			count += print_fill(fill, flags->width - l - 1);
+		if (flags->prec)
+			count += print_fill('0', flags->prec - l);
 	}
 	else
 	{
@@ -32,8 +32,11 @@ int print_int(va_list va, flags_t *flags)
 			count += write(1, "+", 1);
 		else if (flags->space)
 			count += write(1, " ", 1);
-		if (!flags->neg && (flags->plus || flags->space))
+		if (!flags->neg && (flags->plus || flags->space)
+				&& !flags->prec)
 			count += print_fill(fill, flags->width - l - 1);
+		if (flags->prec)
+			count += print_fill('0', flags->prec - l);
 	}
 	place = get_place(n);
 	while (place)
@@ -42,7 +45,7 @@ int print_int(va_list va, flags_t *flags)
 		count += write(1, &c, 1);
 		place /= 10;
 	}
-	if (flags->neg)
+	if (flags->neg && !flags->prec)
 		count += print_fill(' ', flags->width - l -
 			(n < 0 || flags->space || flags->plus));
 	return (count);

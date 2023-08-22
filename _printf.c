@@ -17,25 +17,29 @@ int print_err(flags_t *flags, char c)
 		{
 			case -1:
 				flags->index = -5;
-				if (c == 'l')
-					return (write(1, &c, 1));
-				else
-					return (0);
+				return (c == 'l' ? write(1, &c, 1) : 0);
 			case -2:
 				flags->index = -5;
-				if (c == 'h')
-					return (write(1, &c, 1));
-				else
-					return (0);
+				return (c == 'h' ? write(1, &c, 1) : 0);
 			default:
 				flags->index = c == 'l' ? -2 : -1;
 				return (0);
 		}
 	}
-	else if (flags->index <= 0 && flags->tmp)
+	else if (flags->tmp && c == '*')
 	{
+		if (flags->tmp < 0)
+			return (0);
 		convert_print(flags->tmp, &i, 10, 0);
-		flags->index = 1;
+		flags->tmp = 0;
+		return (i);
+	}
+	else if (flags->tmp1 && c == '*')
+	{
+		if (flags->tmp1 < 0)
+			return (0);
+		convert_print(flags->tmp1, &i, 10, 0);
+		flags->tmp1 = 0;
 		return (i);
 	}
 	else
@@ -55,7 +59,7 @@ int _printf(const char *format, ...)
 {
 	int i = 0, counter = 0, step = 1;
 	va_list ap;
-	flags_t flags = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	flags_t flags = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 	int (*f[])(va_list, flags_t *) = {print_char,
 		print_string, print_int, print_binary, print_u,
@@ -79,9 +83,12 @@ int _printf(const char *format, ...)
 				counter += f[flags.index - 1](ap, &flags);
 			else
 				counter++;
+			if (flags.index > 0)
+				init_flags(&flags);
 			if (flags.index == -1)
 				return (-1);
 		}
 	}
 	return (counter);
 }
+

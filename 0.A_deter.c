@@ -17,6 +17,7 @@ int determine(const char *s, flags_t *flags, va_list ap)
 		i++;
 	i += get_length(&s[i], flags);
 	i += get_width(&s[i], flags, ap);
+	i += get_pres(&s[i], flags, ap);
 	get_index(&s[i], flags);
 	if (flags->index == 0)
 	{
