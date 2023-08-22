@@ -22,25 +22,26 @@ int _printf(const char *format, ...)
 	if (!format)
 		return (-1);
 	va_start(ap, format);
-	while (format[i])
+	for (i = 0; format[i]; i += step, counter++)
 	{
 		step = 1;
 		if (format[i] != '%')
 		{
-			write(1, &format[i], 1);
-			counter++;
+			if (flags.index == 0 && (flags.h || flags.l) &&
+					(format[i] == 'h' || format[i] == 'l'))
+				flags.index = -5;
+			else
+				write(1, &format[i], 1);
 		}
 		else
 		{
 			step += determine(&format[i + 1], &flags);
 			if (flags.index > 0)
-				counter += f[flags.index - 1](ap, &flags);
+				counter += f[flags.index - 1](ap, &flags) - 1;
 			else
-				counter++;
 			if (flags.index == -1)
 				return (-1);
 		}
-		i += step;
 	}
 	return (counter);
 }

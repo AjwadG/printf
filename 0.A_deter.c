@@ -12,8 +12,8 @@ int determine(const char *s, flags_t *flags)
 
 	while (get_f(&s[i], flags))
 		i++;
+	i += get_length(&s[i], flags);
 	get_index(&s[i], flags);
-
 	if (flags->index == 0)
 	{
 		switch (s[i])
@@ -61,8 +61,31 @@ int get_f(const char *s, flags_t *flags)
 			default:
 				return (i);
 		}
+		i++;
 	}
 	return (0);
+}
+
+/**
+ * get_length - determin the lenght
+ * @s: pointer to string
+ * @flags: opject of the out put
+ * Return: the number of skiped chars
+ */
+int get_length(const char *s, flags_t *flags)
+{
+	switch (s[0])
+	{
+		case 'l':
+			flags->l = 1;
+			break;
+		case 'h':
+			flags->h = 1;
+			break;
+		default:
+			return (0);
+	}
+	return (1);
 }
 
 /**
