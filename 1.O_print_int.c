@@ -58,7 +58,7 @@ int print_int(va_list va, flags_t *flags)
  */
 int get_place(long int n)
 {
-	int place = 1;
+	long int place = 1;
 
 	n /= 10;
 	while (n)
