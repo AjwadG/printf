@@ -53,7 +53,8 @@ int print_string(va_list ap, flags_t *flags)
 	}
 	if (!flags->neg)
 		counter += print_fill(' ', flags->width - l);
-	counter += write(1, s, l);
+	if (!flags->dont)
+		counter += write(1, s, l);
 
 	if (flags->neg)
 		counter += print_fill(' ', flags->width - l);
@@ -113,4 +114,5 @@ void init_flags(flags_t *flags)
 	flags->prec = 0;
 	flags->tmp = 0;
 	flags->tmp1 = 0;
+	flags->dont = 0;
 }

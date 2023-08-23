@@ -18,6 +18,7 @@
  * @index: int
  * @tmp: int
  * @tmp1: int
+ * @dont: int
  */
 typedef struct infos
 {
@@ -33,6 +34,7 @@ typedef struct infos
 	int index;
 	int tmp;
 	int tmp1;
+	int dont;
 } flags_t;
 
 

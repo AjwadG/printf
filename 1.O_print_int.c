@@ -9,8 +9,9 @@
  */
 int print_int(va_list va, flags_t *flags)
 {
-	long int n, place, count = 0, abs = 1, l;
-	char c, fill = flags->zero ? '0' : ' ';
+	long int n;
+	int count = 0, abs = 1, l;
+	char fill = flags->zero ? '0' : ' ';
 
 	n = get_int(va, flags);
 	l = get_int_lenght(n);
@@ -19,9 +20,11 @@ int print_int(va_list va, flags_t *flags)
 		count += print_fill(fill, flags->width - l);
 	if (n < 0)
 	{
+		if (!flags->neg && !flags->prec && fill == ' ')
+			count += print_fill(fill, flags->width - l - 1);
 		abs = -1;
 		count += write(1, "-", 1);
-		if (!flags->neg && !flags->prec)
+		if (!flags->neg && !flags->prec && fill == '0')
 			count += print_fill(fill, flags->width - l - 1);
 		if (flags->prec)
 			count += print_fill('0', flags->prec - l);
@@ -38,13 +41,8 @@ int print_int(va_list va, flags_t *flags)
 		if (flags->prec)
 			count += print_fill('0', flags->prec - l);
 	}
-	place = get_place(n);
-	while (place)
-	{
-		c = n / place % 10 * abs + '0';
-		count += write(1, &c, 1);
-		place /= 10;
-	}
+	if (!(flags->dont && n == 0))
+		convert_print(n * abs, &count, 10, 0);
 	if (flags->neg && !flags->prec)
 		count += print_fill(' ', flags->width - l -
 			(n < 0 || flags->space || flags->plus));
@@ -58,7 +56,7 @@ int print_int(va_list va, flags_t *flags)
  */
 int get_place(long int n)
 {
-	long int place = 1;
+	int place = 1;
 
 	n /= 10;
 	while (n)

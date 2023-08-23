@@ -74,5 +74,7 @@ int get_pres(const char *s, flags_t *flags, va_list ap)
 			break;
 		}
 	}
+	if (s[0] == '.' && flags->prec == 0)
+		flags->dont = 1;
 	return (i);
 }

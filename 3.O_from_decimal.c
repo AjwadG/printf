@@ -34,7 +34,8 @@ int print_u(va_list ap, flags_t *flags)
 		counter += print_fill(fill, flags->width - l);
 	if (flags->prec)
 		counter += print_fill('0', flags->prec - l);
-	convert_print(n, &counter, 10, 0);
+	if (!(flags->dont && n == 0))
+		convert_print(n, &counter, 10, 0);
 	if (flags->neg && !flags->prec)
 		counter += print_fill(' ', flags->width - l);
 	return (counter);
@@ -55,16 +56,18 @@ int print_octal(va_list ap, flags_t *flags)
 
 	l = get_int_lenght(n);
 	if (!flags->zero && !flags->neg && !flags->prec)
-		counter += print_fill(' ', flags->width - l - flags->hash);
+		counter += print_fill(' ', flags->width - l -
+				(flags->hash && n != 0));
 
-	if (flags->hash)
+	if (flags->hash && n != 0)
 		counter += write(1, "0", 1);
 	if (flags->prec)
 		counter += print_fill('0', flags->prec - l - counter);
 	if (flags->zero & !flags->neg && !flags->prec)
-		counter += print_fill('0', flags->width - l - flags->hash);
-
-	convert_print(n, &counter, 8, 0);
+		counter += print_fill('0', flags->width - l -
+				(flags->hash && n != 0));
+	if (!(flags->dont && n == 0))
+		convert_print(n, &counter, 8, 0);
 
 	if (flags->neg && !flags->prec)
 		counter += print_fill(' ', flags->width - l - flags->hash);
@@ -85,22 +88,24 @@ int print_hex(va_list ap, flags_t *flags)
 
 	n =  get_unsigned_int(ap, flags);
 
-	l = get_int_lenght(n) + (flags->hash * 2);
+	l = get_int_lenght(n) + (flags->hash && n != 0) * 2;
 	if (!flags->zero && !flags->neg && !flags->prec)
-		counter += print_fill(' ', flags->width - l);
+		counter += print_fill(' ', flags->width - l
+				+ (n != 0) + (flags->dont && n == 0));
 
-	if (flags->hash)
+	if (flags->hash && n != 0)
 		counter += write(1, "0x", 2);
 
 	if (flags->prec)
-		counter += print_fill('0', flags->prec - l + counter + 1);
+		counter += print_fill('0', flags->prec -
+				l + counter + 1 - (n == 0));
 	if (flags->zero && !flags->neg && !flags->prec)
-		counter += print_fill('0', flags->width - l);
-
-	convert_print(n, &counter, 16, 'a');
+		counter += print_fill('0', flags->width - l + (n != 0));
+	if (!(flags->dont && n == 0))
+		convert_print(n, &counter, 16, 'a');
 
 	if (flags->neg && !flags->prec)
-		counter += print_fill(' ', flags->width - l);
+		counter += print_fill(' ', flags->width - l + (n != 0));
 	return (counter);
 }
 
@@ -117,21 +122,26 @@ int print_HEX(va_list ap, flags_t *flags)
 
 	n =  get_unsigned_int(ap, flags);
 
-	l = get_int_lenght(n) + (flags->hash * 2);
+	l = get_int_lenght(n) + (flags->hash && n != 0) * 2;
 	if (!flags->zero && !flags->neg && !flags->prec)
-		counter += print_fill(' ', flags->width - l);
+		counter += print_fill(' ', flags->width - l +
+				(n != 0) + (flags->dont && n == 0));
 
-	if (flags->hash)
+	if (flags->hash && n != 0)
 		counter += write(1, "0X", 2);
 
 	if (flags->prec)
-		counter += print_fill('0', flags->prec - l + counter + 1);
+		counter += print_fill('0', flags->prec - l
+				+ counter + 1 - (n == 0));
 	if (flags->zero && !flags->neg && !flags->prec)
-		counter += print_fill('0', flags->width - l);
+		counter += print_fill('0', flags->width - l + (n != 0));
 
-	convert_print(n, &counter, 16, 'A');
+	if (!(flags->dont && n == 0))
+		convert_print(n, &counter, 16, 'A');
 
 	if (flags->neg && !flags->prec)
-		counter += print_fill(' ', flags->width - l);
+		counter += print_fill(' ', flags->width - l + (n != 0));
 	return (counter);
+	if (!flags->prec && !n)
+		return (0);
 }

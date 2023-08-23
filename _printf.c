@@ -59,7 +59,7 @@ int _printf(const char *format, ...)
 {
 	int i = 0, counter = 0, step = 1;
 	va_list ap;
-	flags_t flags = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	flags_t flags = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 	int (*f[])(va_list, flags_t *) = {print_char,
 		print_string, print_int, print_binary, print_u,
